@@ -130,3 +130,4 @@ intentionally simple and should be upgraded before real-world use:
 - Starfield/asteroid animation: `components/StarField.js` (pure canvas, no
   external assets)
 - Fonts: Space Grotesk (headings) + Inter (body), loaded in `app/globals.css`
+# DevSoc
