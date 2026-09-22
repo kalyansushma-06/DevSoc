@@ -1,0 +1,27 @@
+// components/AdminSidebar.jsx
+import Link from "next/link";
+
+export default function AdminSidebar({ admin }) {
+  return (
+    <aside className="w-64 bg-void-800 text-white p-6 border-r border-void-700 flex flex-col justify-between">
+      <div>
+        <div className="mb-8">
+          <h2 className="text-xl font-bold">Admin Portal</h2>
+          {admin?.email && (
+            <p className="text-sm text-gray-400 mt-1">{admin.email}</p>
+          )}
+        </div>
+        <nav className="flex flex-col space-y-2">
+          <Link href="/admin/dashboard" className="px-3 py-2 rounded hover:bg-void-700">
+            Dashboard
+          </Link>          <Link href="/admin/users" className="px-3 py-2 rounded hover:bg-void-700">
+            Users
+          </Link>
+          <Link href="/admin/settings" className="px-3 py-2 rounded hover:bg-void-700">
+            Settings
+          </Link>
+        </nav>
+      </div>
+    </aside>
+  );
+}
