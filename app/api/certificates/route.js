@@ -8,9 +8,7 @@ const handlers = crudHandlers("certificates", {
 async function generateCertificateId() {
   const certificates = await readCollection("certificates");
 
-  const year = new Date().getFullYear();
-
-  const prefix = `DEVSOC-${year}-`;
+  const prefix = "TECH-ODYSSEY-";
 
   let maxNumber = 0;
 
@@ -24,12 +22,16 @@ async function generateCertificateId() {
     const numberPart = certId.slice(prefix.length);
     const number = Number.parseInt(numberPart, 10);
 
-    if (Number.isFinite(number) && number > maxNumber) {
-      maxNumber = number;
-    }
+if (
+  Number.isFinite(number) &&
+  number >= 0 &&
+  number > maxNumber
+) {
+  maxNumber = number;
+}
   }
 
-  const nextNumber = String(maxNumber + 1).padStart(4, "0");
+  const nextNumber = String(maxNumber + 1).padStart(3, "0");
 
   return `${prefix}${nextNumber}`;
 }
