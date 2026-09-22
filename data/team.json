@@ -1,0 +1,8 @@
+[
+  { "id": "t1", "name": "Aarav Sharma", "role": "President", "subteam": "management", "bio": "Final year CSE. Started DevSoc in 2nd year with three friends and a shared laptop.", "linkedin": "https://linkedin.com/in/aarav-sharma", "github": "https://github.com/aaravsharma", "photo": "" },
+  { "id": "t2", "name": "Diya Mehta", "role": "Vice President", "subteam": "management", "bio": "Runs the mentorship track and the annual demo day.", "linkedin": "https://linkedin.com/in/diya-mehta", "github": "https://github.com/diyamehta", "photo": "" },
+  { "id": "t3", "name": "Kabir Nair", "role": "Tech Lead", "subteam": "tech", "bio": "Maintains the club's internal tools and this website's backend.", "linkedin": "https://linkedin.com/in/kabir-nair", "github": "https://github.com/kabirnair", "photo": "" },
+  { "id": "t4", "name": "Ishita Rao", "role": "Design Lead", "subteam": "design", "bio": "Owns the visual identity, from the logo to every poster we ship.", "linkedin": "https://linkedin.com/in/ishita-rao", "github": "https://github.com/ishitarao", "photo": "" },
+  { "id": "t5", "name": "Rohan Verma", "role": "Content Lead", "subteam": "content", "bio": "Writes the newsletter and edits every blog post before it goes live.", "linkedin": "https://linkedin.com/in/rohan-verma", "github": "https://github.com/rohanverma", "photo": "" },
+  { "id": "t6", "name": "Sana Iyer", "role": "Events Coordinator", "subteam": "management", "bio": "Plans logistics for every workshop, hackathon, and demo day.", "linkedin": "https://linkedin.com/in/sana-iyer", "github": "https://github.com/sanaiyer", "photo": "" }
+]

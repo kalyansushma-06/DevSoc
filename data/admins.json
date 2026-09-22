@@ -1,0 +1,9 @@
+[
+  {
+    "id": "admin-1",
+    "name": "Root Admin",
+    "email": "admin@devsoc.club",
+    "password": "change-this-password",
+    "role": "superadmin"
+  }
+]

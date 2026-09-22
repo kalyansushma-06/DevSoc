@@ -1,0 +1,24 @@
+{
+  "mission": "DevSoc exists to turn curious beginners into confident builders. We run hands-on workshops, ship real projects, and connect members with mentors, internships, and each other.",
+  "vision": "A campus where every student who wants to build software has the community, mentorship, and stage to do it.",
+  "story": "DevSoc started as a handful of students meeting in a hostel room to prep for hackathons. A few semesters later we run weekly build sessions, a mentorship track, a certificate program, and an annual demo day for member projects.",
+  "values": [
+    { "title": "Build in public", "description": "We ship real projects, not just slide decks, and we show our work at every stage." },
+    { "title": "Teach what you learn", "description": "Members who learn a skill run a session on it. Knowledge compounds when it's shared." },
+    { "title": "Credibility over hype", "description": "Every certificate we issue is verifiable. Every claim on this site should be checkable." },
+    { "title": "Everyone starts somewhere", "description": "No prior experience is required to join. We meet people where they are." }
+  ],
+  "howWeOperate": [
+    "Sub-teams (Tech, Design, Content, Management) run day-to-day with a coordinator each.",
+    "Core team meets weekly to plan events, review budgets, and approve new initiatives.",
+    "Any member can propose a workshop, project, or blog post through the site.",
+    "Certificates are issued only for verified participation and logged in the public registry."
+  ],
+  "contactEmail": "hello@devsoc.club",
+  "socials": {
+    "instagram": "https://instagram.com/devsoc.club",
+    "linkedin": "https://linkedin.com/company/devsoc-club",
+    "github": "https://github.com/devsoc-club",
+    "discord": "https://discord.gg/devsoc"
+  }
+}

@@ -1,0 +1,7 @@
+[
+  { "id": "f1", "q": "Do I need prior coding experience to join?", "a": "No. About half of our new members join with zero prior experience. We run beginner-track workshops every semester." },
+  { "id": "f2", "q": "How do I join a sub-team?", "a": "Fill out the recruitment form on the Join page and pick a sub-team (Tech, Design, Content, or Management). Applications are reviewed by the coordinator of that sub-team." },
+  { "id": "f3", "q": "Are DevSoc certificates real proof of participation?", "a": "Yes. Every certificate we issue has a unique ID that anyone can look up on our Certificate Verification page to confirm it's genuine, who issued it, and what it was issued for." },
+  { "id": "f4", "q": "Is there a membership fee?", "a": "No. DevSoc membership is free. Some flagship events may have a small fee to cover food and swag, which is always announced in advance." },
+  { "id": "f5", "q": "Can I propose my own workshop or project?", "a": "Yes, any member can propose a workshop or submit a project for the showcase. Submissions go through a short review before going live." }
+]

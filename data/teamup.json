@@ -1,0 +1,4 @@
+[
+  { "id": "tu1", "title": "Need a designer for Orbit Hackathon", "description": "Two devs, no designer. Building a campus lost-and-found app for the hackathon, need someone for UI in the next week.", "author": "Vivaan Chatterjee", "contact": "vivaan.c@example.edu", "neededRoles": ["UI/UX Designer"], "tags": ["hackathon", "design"], "createdAt": "2026-09-18" },
+  { "id": "tu2", "title": "Looking for an ML teammate", "description": "Have an idea for a study-planner that predicts your best revision schedule. Need someone comfortable with basic ML for the recommendation part.", "author": "Aditi Kulkarni", "contact": "aditi.k@example.edu", "neededRoles": ["ML/Data"], "tags": ["side-project", "ml"], "createdAt": "2026-09-12" }
+]

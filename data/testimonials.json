@@ -1,0 +1,5 @@
+[
+  { "id": "ts1", "name": "Aditi Kulkarni", "role": "3rd Year, CSE", "story": "I joined DevSoc knowing nothing but HTML tags. Two semesters later I shipped PixelPredict and landed a summer ML internship, largely because of the mentorship track.", "highlight": "Landed a summer ML internship", "approved": true },
+  { "id": "ts2", "name": "Vivaan Chatterjee", "role": "2nd Year, ECE", "story": "The Orbit Hackathon was my first ever hackathon. Our team placed as runner-up and NoteSync is now something I actually use every day.", "highlight": "Runner-up, Orbit Hackathon 2026", "approved": true },
+  { "id": "ts3", "name": "Meher Bansal", "role": "2nd Year, IT", "story": "Build Night is where I actually learned to deploy something instead of just watching tutorials. CampusEats started as a joke and now half the hostel uses it.", "highlight": "Shipped CampusEats", "approved": true }
+]

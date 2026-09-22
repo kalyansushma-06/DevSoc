@@ -1,0 +1,4 @@
+[
+  { "id": "app1", "name": "Kavya Reddy", "email": "kavya.reddy@example.edu", "year": "1st Year", "branch": "CSE", "subteam": "tech", "why": "I want to get better at web development and build something with a team instead of alone.", "status": "pending", "appliedAt": "2026-09-15" },
+  { "id": "app2", "name": "Arnav Malhotra", "email": "arnav.m@example.edu", "year": "2nd Year", "branch": "Design", "subteam": "design", "why": "I've been designing posters for my hostel and want to design for real products.", "status": "pending", "appliedAt": "2026-09-17" }
+]

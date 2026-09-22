@@ -1,0 +1,5 @@
+[
+  { "id": "m1", "name": "Priya Desai", "expertise": "Backend & Distributed Systems", "bio": "SDE-2 at a fintech startup, DevSoc alum, mentors the backend cohort every semester.", "linkedin": "https://linkedin.com/in/priya-desai", "photo": "", "status": "approved" },
+  { "id": "m2", "name": "Arjun Kapoor", "expertise": "Machine Learning", "bio": "MS student researching applied ML, runs the monthly paper-reading circle.", "linkedin": "https://linkedin.com/in/arjun-kapoor", "photo": "", "status": "approved" },
+  { "id": "m3", "name": "Neha Joshi", "expertise": "Product Design", "bio": "Product designer, helps members turn rough prototypes into usable interfaces.", "linkedin": "https://linkedin.com/in/neha-joshi", "photo": "", "status": "pending" }
+]
