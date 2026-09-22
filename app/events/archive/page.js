@@ -1,11 +1,13 @@
+export const dynamic = "force-dynamic";
+
 import Link from "next/link";
 import { readCollection } from "@/lib/db";
 
 export const metadata = { title: "Past Events — DevSoc" };
 
-export default function EventsArchivePage() {
+export default async function EventsArchivePage() {
   const today = new Date().toISOString().slice(0, 10);
-  const past = readCollection("events")
+  const past = (await readCollection("events"))
     .filter((e) => e.date < today)
     .sort((a, b) => b.date.localeCompare(a.date));
 

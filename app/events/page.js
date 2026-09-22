@@ -1,12 +1,14 @@
+export const dynamic = "force-dynamic";
+
 import Link from "next/link";
 import { readCollection } from "@/lib/db";
 import RsvpButton from "@/components/RsvpButton";
 
 export const metadata = { title: "Events — DevSoc" };
 
-export default function EventsPage() {
+export default async function EventsPage() {
   const today = new Date().toISOString().slice(0, 10);
-  const events = readCollection("events")
+  const events = (await readCollection("events"))
     .filter((e) => e.status === "approved" && e.date >= today)
     .sort((a, b) => a.date.localeCompare(b.date));
 

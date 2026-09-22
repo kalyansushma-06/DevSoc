@@ -1,9 +1,11 @@
+export const dynamic = "force-dynamic";
+
 import { readDoc } from "@/lib/db";
 
 export const metadata = { title: "About — DevSoc" };
 
-export default function AboutPage() {
-  const about = readDoc("about") || {};
+export default async function AboutPage() {
+  const about = (await readDoc("about")) || {};
 
   return (
     <div className="section">

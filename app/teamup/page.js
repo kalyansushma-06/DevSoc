@@ -1,10 +1,12 @@
+export const dynamic = "force-dynamic";
+
 import { readCollection } from "@/lib/db";
 import TeamupForm from "@/components/TeamupForm";
 
 export const metadata = { title: "Team Up Board — DevSoc" };
 
-export default function TeamupPage() {
-  const listings = [...readCollection("teamup")].sort((a, b) =>
+export default async function TeamupPage() {
+  const listings = [...(await readCollection("teamup"))].sort((a, b) =>
     b.createdAt.localeCompare(a.createdAt)
   );
 

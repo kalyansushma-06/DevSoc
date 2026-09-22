@@ -1,15 +1,17 @@
+export const dynamic = "force-dynamic";
+
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { readCollection } from "@/lib/db";
 
-export function generateStaticParams() {
-  return readCollection("blog")
+export async function generateStaticParams() {
+  return (await readCollection("blog"))
     .filter((p) => p.status === "published")
     .map((p) => ({ slug: p.slug }));
 }
 
-export default function BlogPostPage({ params }) {
-  const post = readCollection("blog").find((p) => p.slug === params.slug && p.status === "published");
+export default async function BlogPostPage({ params }) {
+  const post = (await readCollection("blog")).find((p) => p.slug === params.slug && p.status === "published");
   if (!post) notFound();
 
   return (

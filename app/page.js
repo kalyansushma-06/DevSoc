@@ -2,13 +2,19 @@ import Link from "next/link";
 import Image from "next/image";
 import { readCollection, readDoc } from "@/lib/db";
 
-export default function HomePage() {
-  const about = readDoc("about") || {};
-  const events = readCollection("events");
-  const projects = readCollection("projects").filter((p) => p.status === "approved");
-  const testimonials = readCollection("testimonials").filter((t) => t.approved);
-  const team = readCollection("team");
-  const certificates = readCollection("certificates");
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const about = (await readDoc("about")) || {};
+  const events = await readCollection("events");
+  const projects = (await readCollection("projects")).filter(
+  (p) => p.status === "approved"
+);
+  const testimonials = (await readCollection("testimonials")).filter(
+  (t) => t.approved
+);
+  const team = await readCollection("team");
+  const certificates = await readCollection("certificates");
 
   const today = new Date().toISOString().slice(0, 10);
   const upcoming = events

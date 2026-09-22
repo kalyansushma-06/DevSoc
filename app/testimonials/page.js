@@ -1,10 +1,14 @@
+export const dynamic = "force-dynamic";
+
 import { readCollection } from "@/lib/db";
 import TestimonialForm from "@/components/TestimonialForm";
 
 export const metadata = { title: "Success Stories — DevSoc" };
 
-export default function TestimonialsPage() {
-  const testimonials = readCollection("testimonials").filter((t) => t.approved);
+export default async function TestimonialsPage() {
+  const testimonials = (await readCollection("testimonials")).filter(
+  (t) => t.approved
+);
 
   return (
     <div className="section">

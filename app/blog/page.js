@@ -1,10 +1,12 @@
+export const dynamic = "force-dynamic";
+
 import Link from "next/link";
 import { readCollection } from "@/lib/db";
 
 export const metadata = { title: "Blog — DevSoc" };
 
-export default function BlogIndexPage() {
-  const posts = readCollection("blog")
+export default async function BlogIndexPage() {
+  const posts = (await readCollection("blog"))
     .filter((p) => p.status === "published")
     .sort((a, b) => b.date.localeCompare(a.date));
 

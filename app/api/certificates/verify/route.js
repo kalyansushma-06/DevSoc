@@ -9,7 +9,7 @@ export async function GET(request) {
     return NextResponse.json({ error: "Provide a certificate ID to look up." }, { status: 400 });
   }
 
-  const certificates = readCollection("certificates");
+  const certificates = await readCollection("certificates");
   const match = certificates.find(
     (c) => c.certId.toLowerCase() === certId.toLowerCase()
   );

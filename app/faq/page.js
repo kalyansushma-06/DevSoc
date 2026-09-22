@@ -1,9 +1,11 @@
+export const dynamic = "force-dynamic";
+
 import { readCollection } from "@/lib/db";
 
 export const metadata = { title: "FAQ — DevSoc" };
 
-export default function FaqPage() {
-  const faqs = readCollection("faq");
+export default async function FaqPage() {
+  const faqs = await readCollection("faq");
 
   return (
     <div className="section max-w-3xl">

@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { readCollection } from "@/lib/db";
 
 export const metadata = { title: "Team — DevSoc" };
@@ -13,9 +15,9 @@ function initials(name) {
   return name.split(" ").map((n) => n[0]).slice(0, 2).join("").toUpperCase();
 }
 
-export default function TeamPage() {
-  const team = readCollection("team");
-  const mentors = readCollection("mentors").filter((m) => m.status === "approved");
+export default async function TeamPage() {
+  const team = await readCollection("team");
+  const mentors = (await readCollection("mentors")).filter((m) => m.status === "approved");
 
   return (
     <div className="section">

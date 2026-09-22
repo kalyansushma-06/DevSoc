@@ -6,18 +6,17 @@ import { readCollection } from "@/lib/db";
 export async function GET() {
   if (!getSession()) return NextResponse.json({ error: "Admin login required." }, { status: 401 });
 
-  const events = readCollection("events");
-  const projects = readCollection("projects");
-  const members = readCollection("members");
-  const mentors = readCollection("mentors");
-  const testimonials = readCollection("testimonials");
-  const certificates = readCollection("certificates");
-  const teamup = readCollection("teamup");
-  const feedback = readCollection("feedback");
-  const contact = readCollection("contact");
-  const newsletter = readCollection("newsletter");
-  const blog = readCollection("blog");
-
+  const events = await readCollection("events");
+  const projects = await readCollection("projects");
+  const members = await readCollection("members");
+  const mentors = await readCollection("mentors");
+  const testimonials = await readCollection("testimonials");
+  const certificates = await readCollection("certificates");
+  const teamup = await readCollection("teamup");
+  const feedback = await readCollection("feedback");
+  const contact = await readCollection("contact");
+  const newsletter = await readCollection("newsletter");
+  const blog = await readCollection("blog");
   return NextResponse.json({
     totals: {
       events: events.length,

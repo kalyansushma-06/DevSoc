@@ -1,11 +1,13 @@
+export const dynamic = "force-dynamic";
+
 import { readCollection } from "@/lib/db";
 import ProjectsExplorer from "@/components/ProjectsExplorer";
 import ProjectSubmitForm from "@/components/ProjectSubmitForm";
 
 export const metadata = { title: "Projects — DevSoc" };
 
-export default function ProjectsPage() {
-  const projects = readCollection("projects").filter((p) => p.status === "approved");
+export default async function ProjectsPage() {
+  const projects = (await readCollection("projects")).filter((p) => p.status === "approved");
 
   return (
     <div className="section">

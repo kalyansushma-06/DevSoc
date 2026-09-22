@@ -1,10 +1,12 @@
+export const dynamic = "force-dynamic";
+
 import { readDoc } from "@/lib/db";
 import ContactForm from "@/components/ContactForm";
 
 export const metadata = { title: "Contact — DevSoc" };
 
-export default function ContactPage() {
-  const about = readDoc("about") || {};
+export default async function ContactPage() {
+  const about = (await readDoc("about")) || {};
   const socials = about.socials || {};
 
   return (
