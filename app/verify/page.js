@@ -1,81 +1,169 @@
+// app/verify/page.js
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useSearchParams } from "next/navigation";
+import CertificateCanvas from "@/components/CertificateCanvas";
+import { CheckCircle2, XCircle, Search, ShieldCheck, Printer } from "lucide-react";
 
-export default function VerifyPage() {
-  const [certId, setCertId] = useState("");
-  const [result, setResult] = useState(null); // null | { found, certificate? }
-  const [state, setState] = useState("idle");
+export default function VerifyCertificatePage() {
+  const searchParams = useSearchParams();
+  const certIdQuery = searchParams.get("id") || searchParams.get("code");
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setState("loading");
-    setResult(null);
-    try {
-      const res = await fetch(`/api/certificates/verify?certId=${encodeURIComponent(certId)}`);
-      const data = await res.json();
-      setResult(data);
-      setState("done");
-    } catch {
-      setState("error");
+  const [inputCertId, setInputCertId] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [certData, setCertData] = useState(null);
+  const [error, setError] = useState(null);
+  const certPrintRef = useRef(null);
+
+  useEffect(() => {
+    if (certIdQuery) {
+      setInputCertId(certIdQuery);
+      fetchCertificate(certIdQuery);
     }
-  }
+  }, [certIdQuery]);
+
+  const fetchCertificate = async (id) => {
+    if (!id) return;
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await fetch(`/api/certificates/verify?id=${encodeURIComponent(id)}`);
+      const data = await res.json();
+
+      if (res.ok && data?.certificate) {
+        setCertData(data.certificate);
+      } else {
+        setError(data?.message || "Certificate not found or invalid ID.");
+        setCertData(null);
+      }
+    } catch (err) {
+      console.error(err);
+      setError("An error occurred while validating the certificate.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleManualSearch = (e) => {
+    e.preventDefault();
+    if (inputCertId.trim()) {
+      fetchCertificate(inputCertId.trim());
+    }
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  // Smart verification message extraction
+  const recipientName = (certData?.recipientName || certData?.name || "").trim();
+  const eventName = (certData?.eventName || certData?.event || "").trim();
+  const hasName = recipientName.length > 0;
+  const hasEvent = eventName.length > 0;
 
   return (
-    <div className="section max-w-3xl">
-      <span className="eyebrow">Public registry</span>
-      <h1 className="font-display text-4xl font-bold sm:text-5xl">Certificate Verification</h1>
-      <p className="mt-6 text-white/60">
-        Anyone — a recruiter, a professor, you — can look up a DevSoc certificate ID here to
-        confirm it's genuine, who issued it, and what it was issued for.
-      </p>
-
-      <form onSubmit={handleSubmit} className="glass-panel mt-10 flex flex-col gap-3 p-6 sm:flex-row">
-        <input
-          required
-          value={certId}
-          onChange={(e) => setCertId(e.target.value)}
-          placeholder="Enter certificate ID, e.g. DEVSOC-2026-0001"
-          className="nova-input font-mono"
-        />
-        <button type="submit" disabled={state === "loading"} className="nova-btn-primary whitespace-nowrap">
-          {state === "loading" ? "Checking..." : "Verify"}
-        </button>
-      </form>
-
-      {result && (
-        <div className="mt-8">
-          {result.found ? (
-            <div className="glass-panel overflow-hidden border-nova-cyan/40 p-8">
-              <div className="flex items-center justify-between">
-                <span className="nova-tag !border-nova-cyan/50 !text-nova-cyan">
-                  ✓ {result.certificate.status === "valid" ? "Genuine Certificate" : `Status: ${result.certificate.status}`}
-                </span>
-                <span className="font-mono text-xs text-white/40">{result.certificate.certId}</span>
-              </div>
-              <h2 className="mt-5 font-display text-2xl font-bold">{result.certificate.name}</h2>
-              <p className="mt-1 text-white/60">{result.certificate.issuedFor}</p>
-              <div className="mt-6 grid grid-cols-2 gap-4 border-t border-white/10 pt-6 text-sm">
-                <div>
-                  <p className="text-white/40">Issued by</p>
-                  <p className="mt-1 font-medium">{result.certificate.issuedBy}</p>
-                </div>
-                <div>
-                  <p className="text-white/40">Date issued</p>
-                  <p className="mt-1 font-medium">{result.certificate.dateIssued}</p>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="glass-panel border-red-500/30 p-8 text-center">
-              <p className="font-display text-lg font-semibold text-red-300">No matching certificate found</p>
-              <p className="mt-2 text-sm text-white/50">
-                Double check the ID for typos. If you believe this is an error, contact us.
-              </p>
-            </div>
-          )}
+    <div className="min-h-screen bg-slate-950 text-slate-100 py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto space-y-8">
+        
+        {/* Header */}
+        <div className="text-center space-y-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium">
+            <ShieldCheck className="w-4 h-4" /> Official DevSoc Credential Verification
+          </div>
+          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+            Verify Certificate Authenticity
+          </h1>
+          <p className="text-slate-400 text-sm max-w-md mx-auto">
+            Scan the certificate QR code or enter the Certificate ID to view the verified credential.
+          </p>
         </div>
-      )}
+
+        {/* Search Bar */}
+        <form onSubmit={handleManualSearch} className="max-w-xl mx-auto flex gap-2">
+          <input
+            type="text"
+            placeholder="Enter Certificate ID (e.g. CERT-B1BXRCL)"
+            value={inputCertId}
+            onChange={(e) => setInputCertId(e.target.value)}
+            className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono"
+          />
+          <button
+            type="submit"
+            disabled={loading}
+            className="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-xl font-medium text-sm flex items-center gap-2 transition disabled:opacity-50"
+          >
+            <Search className="w-4 h-4" />
+            {loading ? "Verifying..." : "Verify"}
+          </button>
+        </form>
+
+        {/* Verification Status Banner */}
+        {certData && (
+          <div className="bg-emerald-950/40 border border-emerald-500/30 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xl">
+            <div className="flex items-center gap-3">
+              <CheckCircle2 className="w-6 h-6 text-emerald-400 shrink-0" />
+              <div>
+                <h3 className="text-sm font-semibold text-emerald-300">Authentic Certificate Verified</h3>
+                
+                {/* Clean conditional description */}
+                {hasName && hasEvent ? (
+                  <p className="text-xs text-emerald-400/80">
+                    Issued to <span className="font-semibold text-white">{recipientName}</span> for{" "}
+                    <span className="font-semibold text-white">{eventName}</span>
+                  </p>
+                ) : hasName ? (
+                  <p className="text-xs text-emerald-400/80">
+                    Issued to <span className="font-semibold text-white">{recipientName}</span>
+                  </p>
+                ) : hasEvent ? (
+                  <p className="text-xs text-emerald-400/80">
+                    Issued for <span className="font-semibold text-white">{eventName}</span>
+                  </p>
+                ) : (
+                  <p className="text-xs text-emerald-400/80">
+                    Certificate ID <span className="font-mono font-semibold text-white">{certData.certificateId || certData.id}</span> is authenticated and registered with DevSoc.
+                  </p>
+                )}
+              </div>
+            </div>
+            
+            <button
+              onClick={handlePrint}
+              className="bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 px-3.5 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition self-start sm:self-auto"
+            >
+              <Printer className="w-3.5 h-3.5" /> Print / Save PDF
+            </button>
+          </div>
+        )}
+
+        {error && (
+          <div className="bg-rose-950/40 border border-rose-500/30 rounded-2xl p-4 flex items-center gap-3 text-rose-300 text-sm">
+            <XCircle className="w-5 h-5 text-rose-400 shrink-0" />
+            {error}
+          </div>
+        )}
+
+        {/* Visual Certificate Display */}
+        {certData && (
+          <div ref={certPrintRef} className="space-y-4">
+            <div className="bg-slate-900 border border-slate-800 p-2 sm:p-4 rounded-2xl shadow-2xl">
+              <CertificateCanvas
+                templateUrl={certData.templateUrl}
+                data={certData}
+                layout={certData.layout}
+                isEditable={false}
+                qrUrl={
+                  certData.qrUrl ||
+                  `${typeof window !== "undefined" ? window.location.origin : "https://devsoc-three.vercel.app"}/verify?id=${certData.certificateId || certData.id}`
+                }
+              />
+            </div>
+          </div>
+        )}
+
+      </div>
     </div>
   );
 }
