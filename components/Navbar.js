@@ -22,19 +22,19 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-white/5 bg-void-900/70 backdrop-blur-md">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-3 sm:px-8">
-        <Link href="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
-          <Image
-            src="/logo.jpg"
-            alt="DevSoc logo"
-            width={38}
-            height={38}
-            className="rounded-lg"
-            priority
-          />
-          <span className="font-display text-lg font-bold tracking-tight">
-            Dev<span className="gradient-text">Soc</span>
-          </span>
-        </Link>
+        <Link href="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
+  <Image
+    src="/logo.jpg"
+    alt="DevSoc logo"
+    width={46}
+    height={46}
+    className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl object-cover shadow-sm"
+    priority
+  />
+  <span className="font-display text-xl sm:text-2xl font-bold tracking-tight text-white">
+    Dev<span className="gradient-text">Soc</span>
+  </span>
+</Link>
 
         <nav className="hidden items-center gap-1 lg:flex">
           {LINKS.map((link) => (

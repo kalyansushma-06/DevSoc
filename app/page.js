@@ -30,16 +30,16 @@ export default async function HomePage() {
       <section className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0 bg-nova-radial" />
         <div className="section flex flex-col items-center gap-12 pb-24 pt-16 text-center lg:pt-24">
-          <div className="relative">
-            <video
-              src="/logo-animated.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="mx-auto h-28 w-28 animate-drift rounded-3xl shadow-glow sm:h-36 sm:w-36"
-            />
-          </div>
+          <div className="relative mx-auto flex h-28 w-28 items-center justify-center overflow-hidden rounded-3xl bg-black shadow-glow animate-drift sm:h-36 sm:w-36">
+  <video
+    src="/logo-animated.mp4"
+    autoPlay
+    muted
+    loop
+    playsInline
+    className="h-full w-full object-contain bg-black"
+  />
+</div>
 
           <div>
             <span className="eyebrow">Official Developer Club</span>
