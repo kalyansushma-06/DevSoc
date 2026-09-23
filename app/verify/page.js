@@ -1,12 +1,12 @@
 // app/verify/page.js
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import CertificateCanvas from "@/components/CertificateCanvas";
-import { CheckCircle2, XCircle, Search, ShieldCheck, Printer } from "lucide-react";
+import { CheckCircle2, XCircle, Search, ShieldCheck, Printer, RefreshCw } from "lucide-react";
 
-export default function VerifyCertificatePage() {
+function VerifyContent() {
   const searchParams = useSearchParams();
   const certIdQuery = searchParams.get("id") || searchParams.get("code");
 
@@ -57,7 +57,6 @@ export default function VerifyCertificatePage() {
     window.print();
   };
 
-  // Smart verification message extraction
   const recipientName = (certData?.recipientName || certData?.name || "").trim();
   const eventName = (certData?.eventName || certData?.event || "").trim();
   const hasName = recipientName.length > 0;
@@ -106,8 +105,6 @@ export default function VerifyCertificatePage() {
               <CheckCircle2 className="w-6 h-6 text-emerald-400 shrink-0" />
               <div>
                 <h3 className="text-sm font-semibold text-emerald-300">Authentic Certificate Verified</h3>
-                
-                {/* Clean conditional description */}
                 {hasName && hasEvent ? (
                   <p className="text-xs text-emerald-400/80">
                     Issued to <span className="font-semibold text-white">{recipientName}</span> for{" "}
@@ -165,5 +162,21 @@ export default function VerifyCertificatePage() {
 
       </div>
     </div>
+  );
+}
+
+// Default export wrapped in Suspense (Required for Next.js build)
+export default function VerifyCertificatePage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400 text-sm">
+          <RefreshCw className="w-5 h-5 animate-spin mr-2 text-indigo-500" />
+          Loading verification portal...
+        </div>
+      }
+    >
+      <VerifyContent />
+    </Suspense>
   );
 }
