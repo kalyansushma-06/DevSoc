@@ -1,133 +1,183 @@
-# DevSoc Website
+cat > README.md <<'EOF'
+# DevSoc — Developer Community Platform
 
-A full website for a student developer club, built with **Next.js 14 (App
-Router)** + **Tailwind CSS**. Public site + a working admin backend with
-login and approval workflows — not a static mockup.
+A full-stack web platform built for **DevSoc**, a student developer community.
 
-## What's included
+DevSoc provides a centralized platform for managing technical events, projects, certificates, recruitment, the core team, mentors, blogs, testimonials, and student collaboration — with a public-facing website and a protected administration dashboard.
 
-**Public site**
-- Space-themed home page (animated starfield/asteroid canvas, your logo)
-- About / transparency page
-- Public **certificate verification** — look up any certificate ID
-- Success stories (testimonials), with a public submission form
-- Core team page (photos placeholder, roles, LinkedIn/GitHub) + mentors
-- Event calendar (upcoming) with **RSVP**, plus a past-events **archive**
-  with recap/summary/recording fields
-- Project showcase: tag/domain filtering, **upvotes**, comments, public
-  submission form (goes to "pending" for admin review)
-- "Team Up" board — post/browse listings for hackathon or side-project teammates
-- Blog (published/draft posts, per-post pages)
-- Newsletter signup, FAQ accordion, Contact form, floating feedback widget
+**Live Website:** https://devsoc-three.vercel.app
 
-**Admin backend** at `/admin` (protected by login)
-- Dashboard with live stats + a "needs your attention" pending-approval queue
-- Events: create/edit/delete
-- Certificates: issue new ones (instantly checkable on the public Verify
-  page), revoke/reinstate, delete
-- Projects: approve/reject/delete submissions
-- Recruitment applications: approve/reject/delete
-- Mentors: add, approve, delete
-- Core team: add/edit/remove
-- Testimonials: approve/unpublish/delete
-- Blog: write drafts, publish/unpublish, edit, delete
-- FAQ: add/edit/delete
-- Inbox: feedback-widget notes, contact messages, newsletter subscribers
+---
 
-## Getting started
+## Overview
 
-```bash
-npm install
-cp .env.example .env.local   # then edit the values (see below)
-npm run dev
-```
+DevSoc is designed as more than a static club website.
 
-Open http://localhost:3000. Admin login is at **http://localhost:3000/admin/login**.
+It combines a modern public website with a functional admin platform where authorized administrators can manage the community's content and operations in real time.
 
-### Default admin login
+The platform is built using **Next.js, React, Tailwind CSS, PostgreSQL, and Supabase**, and is deployed on **Vercel**.
 
-Set in `data/admins.json` (and mirrored in `.env.example` for reference):
+---
 
-- Email: `admin@devsoc.club`
-- Password: `change-this-password`
+## Key Features
 
-**Change this password before sharing the site with anyone.** Either edit
-`data/admins.json` directly, or wire up a proper hashed-password flow (see
-"Hardening for production" below).
+### Public Platform
 
-## How data storage works
+- Modern space-themed landing page
+- About and transparency section
+- Public certificate verification
+- Core team showcase
+- Mentor directory
+- Event calendar
+- Upcoming and past events
+- Event RSVP functionality
+- Project showcase
+- Project filtering by tags/domains
+- Project upvotes and comments
+- Student project submissions
+- Team Up board for finding hackathon/project teammates
+- Blog with individual post pages
+- Testimonials and success stories
+- Public testimonial submission
+- Newsletter subscription
+- FAQ section
+- Contact form
+- Feedback widget
 
-There is **no external database** — every collection (events, projects,
-certificates, members, etc.) is a JSON file in `/data`, read and written by
-`lib/db.js`. This means:
+### Certificate System
 
-- Zero setup — it runs immediately after `npm install`.
-- All data is local to your machine/server's filesystem. If you deploy to a
-  serverless host (Vercel, Netlify, etc.), **writes will not persist**
-  between requests because those platforms have a read-only filesystem at
-  runtime. It's great for local development, a self-hosted VM/VPS, or a
-  Docker container with a persistent volume — not for serverless hosting
-  as-is.
+- Admin-issued certificates
+- Unique certificate IDs
+- Public certificate verification
+- Certificate status management
+- Revoke and reinstate certificates
+- Certificate PDF generation
 
-To move to a real database later, you only need to change `lib/db.js`
-(swap the `fs.readFileSync`/`writeFileSync` calls for calls to Postgres,
-MongoDB, etc.) — every API route and admin page calls the same small set of
-functions (`readCollection`, `writeCollection`, `insert`, `update`,
-`remove`) and doesn't need to change.
+### Admin Dashboard
 
-## Project structure
+The protected `/admin` dashboard provides centralized management for:
 
-```
-app/
-  page.js                 Home page
-  about/ verify/ team/ testimonials/ events/ projects/
-  teamup/ blog/ faq/ contact/ join/       Public pages
-  admin/
-    login/page.js          Admin login (unprotected)
-    (app)/                 Everything under here requires a session:
-      layout.js             Sidebar + server-side auth guard
-      page.js                Dashboard
-      events/ certificates/ projects/ members/ mentors/
-      team/ testimonials/ blog/ faq/ inbox/    Admin management pages
-  api/                     One folder per resource; route.js = collection
-                            (GET/POST), [id]/route.js = single item
-                            (GET/PATCH/DELETE). Custom endpoints:
-                            events/[id]/rsvp, certificates/verify,
-                            projects/[id]/upvote, projects/[id]/comments.
-components/                Navbar, Footer, StarField (canvas bg), forms,
-                            RsvpButton, UpvoteButton, CommentSection, etc.
-lib/
-  db.js                    JSON-file datastore (swap this for a real DB)
-  auth.js                  Admin session (signed cookie)
-  crud.js                  Generic CRUD API-route factory
-  adminFetch.js             Small fetch wrapper used by admin pages
-data/*.json                Seed data / the "database" itself
-middleware.js               Redirects unauthenticated /admin/* requests
-public/logo.jpg
-public/logo-animated.mp4   Your DevSoc logo (extracted from the video you
-                            uploaded) used as a looping hero animation
-```
+- Dashboard statistics
+- Events
+- Projects
+- Recruitment applications
+- Mentors
+- Core Team
+- Certificates
+- Testimonials
+- Blog posts
+- FAQs
+- Inbox and submissions
 
-## Hardening for production
+Administrators can perform operations such as:
 
-This is built to run correctly out of the box, but a few things are
-intentionally simple and should be upgraded before real-world use:
+- Create
+- Read
+- Update
+- Delete
+- Approve
+- Reject
+- Publish
+- Unpublish
+- Revoke
+- Reinstate
 
-1. **Passwords are stored in plaintext** in `data/admins.json`. Hash them
-   (e.g. with `bcrypt`) and compare hashes in `lib/auth.js`.
-2. **Swap the JSON-file store for a real database** if you deploy anywhere
-   with a read-only or ephemeral filesystem (see above).
-3. **Set a strong `SESSION_SECRET`** in `.env.local` in production.
-4. Add file/image upload storage (e.g. S3 or Cloudinary) if you want real
-   photos for team members and event covers — currently those fields are
-   plain URL strings you can fill in from the admin forms.
-5. Consider adding rate limiting to public POST endpoints (RSVP, contact,
-   feedback, project submission) to prevent spam.
+---
 
-## Customizing the space theme
+## Core Team Management
 
-- Colors/gradients: `tailwind.config.js` (`nova` and `void` color scales)
-- Starfield/asteroid animation: `components/StarField.js` (pure canvas, no
-  external assets)
-- Fonts: Space Grotesk (headings) + Inter (body), loaded in `app/globals.css`
-# DevSoc
+The admin dashboard includes a dedicated **Team Management** system.
+
+Administrators can:
+
+- Add new team members
+- Edit existing members
+- Remove members
+- Assign roles
+- Assign subteams
+- Add biographies
+- Add GitHub profiles
+- Add LinkedIn profiles
+
+Changes made through the admin dashboard are persisted in the PostgreSQL database and reflected on the public Team page.
+
+---
+
+## Technology Stack
+
+### Frontend
+
+- **Next.js 14**
+- **React**
+- **Tailwind CSS**
+- JavaScript
+- Responsive UI
+
+### Backend
+
+- **Next.js App Router**
+- Next.js API Routes
+- Server-side authentication
+- Generic CRUD API architecture
+
+### Database
+
+- **PostgreSQL**
+- **Supabase**
+- `pg` PostgreSQL client
+
+### Authentication
+
+- Protected admin routes
+- Signed session cookies
+- Server-side session validation
+- Environment-based admin configuration
+
+### Deployment
+
+- **Vercel**
+- GitHub-based deployment workflow
+- Supabase PostgreSQL database
+
+---
+
+## Architecture
+
+```text
+                    ┌─────────────────────┐
+                    │     DevSoc Users    │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │   Next.js Frontend  │
+                    │  Public + Admin UI  │
+                    └──────────┬──────────┘
+                               │
+                 ┌─────────────┴─────────────┐
+                 │                           │
+                 ▼                           ▼
+        ┌─────────────────┐        ┌─────────────────┐
+        │  Public Pages   │        │  Admin Dashboard│
+        │                 │        │                 │
+        │ Events          │        │ Events          │
+        │ Projects        │        │ Projects        │
+        │ Team            │        │ Team            │
+        │ Certificates    │        │ Certificates    │
+        │ Blog            │        │ Blog            │
+        │ etc.            │        │ etc.            │
+        └────────┬────────┘        └────────┬────────┘
+                 │                          │
+                 └────────────┬─────────────┘
+                              ▼
+                    ┌─────────────────────┐
+                    │   Next.js API Layer │
+                    │                     │
+                    │ CRUD + Custom APIs  │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ PostgreSQL /        │
+                    │ Supabase            │
+                    └─────────────────────┘
